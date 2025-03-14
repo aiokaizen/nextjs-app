@@ -1,6 +1,18 @@
+import {Spinner} from "@heroui/spinner";
+
 // Loading animation
 const shimmer =
   'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent';
+
+export function GenericSkeleton() {
+  return (
+    <div
+      className="relative w-full overflow-hidden md:col-span-4 w-full rounded-md bg-gray-50 h-100 flex align-center justify-center"
+    >
+      <Spinner color="warning" variant="spinner" label="Loading..." />
+    </div>
+  );
+}
 
 export function CardSkeleton() {
   return (
