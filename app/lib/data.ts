@@ -18,11 +18,11 @@ export async function fetchRevenue() {
     // Don't do this in production :)
 
     console.log('Fetching revenue data...');
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const data = await sql<Revenue[]>`SELECT * FROM revenue`;
 
-    console.log('Revenue data fetch completed...');
+    console.log('Revenue data fetch completed after 3 seconds.');
 
     return data;
   } catch (error) {
@@ -40,10 +40,13 @@ export async function fetchLatestInvoices() {
       ORDER BY invoices.date DESC
       LIMIT 5`;
 
+    console.log('Fetching latest invoices data...');
+    await new Promise((resolve) => setTimeout(resolve, 1500));
     const latestInvoices = data.map((invoice) => ({
       ...invoice,
       amount: formatCurrency(invoice.amount),
     }));
+    console.log('Latest invoices data fetch completed after 1.5 seconds.');
     return latestInvoices;
   } catch (error) {
     console.error('Database Error:', error);
@@ -63,11 +66,14 @@ export async function fetchCardData() {
          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
          FROM invoices`;
 
+    console.log('Fetching cards data...');
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     const data = await Promise.all([
       invoiceCountPromise,
       customerCountPromise,
       invoiceStatusPromise,
     ]);
+    console.log('Cards data fetch completed after 1 second.');
 
     const numberOfInvoices = Number(data[0][0].count ?? '0');
     const numberOfCustomers = Number(data[1][0].count ?? '0');
